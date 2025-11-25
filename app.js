@@ -7,6 +7,10 @@ const PORT = process.env.PORT || 3000
 app.use (express.json()); // Esta función parsea el body de la petición y si trae JSON lo agrega a req.body
 app.use(cors()) // Habilitar Cors para todas las rutas
 
+app.get('/', (req, res) => {
+  res.send('🚀 El servidor funciona correctamente');
+});
+
 app.get('/clientes', cors(),(req,res)=>{ // Cors habilitado solo para esta ruta
   // Manejo de la ruta...
   console.log(req.query);
