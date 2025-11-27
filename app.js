@@ -1,8 +1,16 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const mysql = require('mysql2');
 
 const PORT = process.env.PORT || 3000
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  database: 'cafeteriadb',
+  password: 'antunez123',
+});
 
 app.use (express.json()); // Esta función parsea el body de la petición y si trae JSON lo agrega a req.body
 app.use(cors()) // Habilitar Cors para todas las rutas
@@ -18,8 +26,18 @@ app.get('/clientes', cors(),(req,res)=>{ // Cors habilitado solo para esta ruta
 })
 
 app.get('/alumnos', (req, res) => {
-  console.log(req.query);
-  res.send('Hello World!')
+  connection.query(
+    'SELECT * FROM inventario WHERE cantidad > 10', // Query corregida
+    function (err, results, fields) {
+      if (err) {
+        console.error(err)
+        return res.status(500).json({ error: 'Error en la consulta' })
+      }
+      console.log(results)
+      console.log(fields)
+      res.json(results) // Enviar los resultados al cliente
+    }
+  )
 })
 
 app.get('/docentes/:control', (req, res) => {
