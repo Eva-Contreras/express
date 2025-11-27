@@ -27,17 +27,12 @@ app.get('/clientes', cors(),(req,res)=>{ // Cors habilitado solo para esta ruta
 
 app.get('/alumnos', (req, res) => {
   connection.query(
-    'SELECT * FROM inventario WHERE cantidad > 10', // Query corregida
+    'SELECT * FROM inventario WHERE cantidad > 10',
     function (err, results, fields) {
-      if (err) {
-        console.error(err)
-        return res.status(500).json({ error: 'Error en la consulta' })
-      }
-      console.log(results)
-      console.log(fields)
-      res.json(results) // Enviar los resultados al cliente
+      console.log(results); // results contains rows returned by server
+      console.log(fields); // fields contains extra meta data about results, if available
     }
-  )
+  );
 })
 
 app.get('/docentes/:control', (req, res) => {
